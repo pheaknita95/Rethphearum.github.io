@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login - Invitation</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Moul&display=swap" rel="stylesheet">
+
+  <style>
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Kantumruy Pro", sans-serif;
+      background:#f5f5f7;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:#fff;
+      border-radius:18px;
+      padding:26px 22px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.12);
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom:14px;
+      user-select:none;
+    }
+    .logo{
+      width:34px;height:34px;border-radius:10px;
+      background:linear-gradient(135deg,#ff2d55,#ff5a5f);
+      position:relative;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:8px;
+      background:#fff; border-radius:50%;
+      opacity:.85;
+    }
+    .brand h1{
+      font-size:22px;
+      margin:0;
+      font-weight:900;
+      color:#ff2d55;
+      letter-spacing:.2px;
+      text-transform:lowercase;
+    }
+
+    .title{
+      text-align:center;
+      margin-top:6px;
+      margin-bottom:6px;
+      font-size:18px;
+      font-weight:900;
+      color:#111;
+    }
+    .subtitle{
+      text-align:center;
+      margin:0 0 18px;
+      font-size:13px;
+      color:#666;
+      line-height:1.5;
+    }
+    .field{ margin-bottom:14px; }
+    .label{
+      font-size:13px;
+      font-weight:800;
+      color:#222;
+      margin-bottom:7px;
+      display:block;
+    }
+    .input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.14);
+      outline:none;
+      font-size:14px;
+      background:#fafafa;
+      transition:.2s;
+    }
+    .input:focus{
+      background:#fff;
+      border-color: rgba(255,45,85,0.55);
+      box-shadow:0 0 0 4px rgba(255,45,85,0.10);
+    }
+
+    .pass-wrap{ position:relative; }
+    .toggle{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      border:none;
+      background:transparent;
+      font-size:14px;
+      cursor:pointer;
+      opacity:.70;
+    }
+    .toggle:hover{ opacity:1; }
+
+    .row{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      margin-top:-4px;
+      margin-bottom:10px;
+      font-size:12px;
+      color:#666;
+    }
+    .row a{
+      color:#111;
+      text-decoration:none;
+      font-weight:800;
+    }
+
+    .btn{
+      width:100%;
+      padding:12px 14px;
+      border:none;
+      border-radius:999px;
+      background:linear-gradient(90deg,#ff2d55,#ff4e66);
+      color:#fff;
+      font-weight:900;
+      font-size:14px;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+
+    .error{
+      display:none;
+      margin-top:10px;
+      background:rgba(255,45,85,0.10);
+      border:1px solid rgba(255,45,85,0.18);
+      color:#a1122a;
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    /* ADMIN PANEL */
+    .hide{ display:none; }
+    .admin-title{
+      text-align:center;
+      font-weight:900;
+      color:#111;
+      font-size:18px;
+      margin:0 0 6px;
+    }
+    .admin-sub{
+      text-align:center;
+      color:#666;
+      font-size:13px;
+      margin:0 0 16px;
+      line-height:1.55;
+    }
+    .pill{
+      background:rgba(255,45,85,0.08);
+      border:1px solid rgba(255,45,85,0.14);
+      color:#a1122a;
+      font-weight:900;
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:13px;
+      margin-bottom:12px;
+      text-align:center;
+    }
+    .preview{
+      margin-top:14px;
+      font-size:13px;
+      color:#333;
+      line-height:1.6;
+      padding:12px 12px;
+      border-radius:14px;
+      background:#fafafa;
+      border:1px solid rgba(0,0,0,0.08);
+    }
+    .preview b{ color:#111; }
+
+    .btn-row{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .btn-small{
+      flex:1;
+      min-width:150px;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.12);
+      background:#111;
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .btn-outline{
+      flex:1;
+      min-width:150px;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,45,85,0.35);
+      background:#fff;
+      color:#ff2d55;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .toast{
+      display:none;
+      margin-top:12px;
+      background:rgba(0,200,90,0.10);
+      border:1px solid rgba(0,200,90,0.18);
+      color:#0a7a3d;
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      font-weight:900;
+      text-align:center;
+    }
+    .version{
+      text-align:center;
+      font-size:12px;
+      margin-top:16px;
+      color:#777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ LOGIN -->
+  <div class="card" id="loginCard">
+    <div class="brand">
+      <div class="logo"></div>
+      <h1>plan essential</h1>
+    </div>
+    <div class="title">Login Account</div>
+    <div class="subtitle">Login to generate guest invitation links.</div>
+
+    <div class="field">
+      <label class="label">Phone / Email</label>
+      <input id="phone" class="input" type="text" placeholder="015812050" />
+    </div>
+
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="pass-wrap">
+        <input id="password" class="input" type="password" placeholder="Enter password" />
+        <button class="toggle" id="togglePass" type="button">👁️</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <a href="#" onclick="alert('សូមទំនាក់ទំនង Admin ដើម្បី Reset ពាក្យសម្ងាត់។'); return false;">Forgot your password?</a>
+    </div>
+
+    <button class="btn" id="loginBtn">Login</button>
+    <div class="error" id="loginError">❌ Phone/Email ឬ Password មិនត្រឹមត្រូវ</div>
+    <div class="version">Version 1.0.0 - production</div>
+  </div>
+
+  <!-- ✅ ADMIN PANEL -->
+  <div class="card hide" id="adminCard">
+    <div class="admin-title">✅ Admin Panel</div>
+    <div class="admin-sub">វាយឈ្មោះភ្ញៀវ → Copy Link → ផ្ញើទៅភ្ញៀវ ✅</div>
+
+    <div class="pill" id="loggedAs">Logged in ✅</div>
+
+    <div class="field">
+      <label class="label">ឈ្មោះភ្ញៀវ</label>
+      <input id="guestInput" class="input" type="text" placeholder="ឧ. លោក សុខ រតនៈវិសាល" />
+    </div>
+
+    <div class="preview" id="previewBox">📌 Preview: <b>សូមគោរពអញ្ជើញ លោក ........</b></div>
+
+    <div class="btn-row">
+      <button class="btn-small" id="copyBtn">🔗 Copy Link</button>
+      <button class="btn-outline" id="resetBtn">♻️ Reset</button>
+    </div>
+
+    <div class="toast" id="toastMsg">✅ Copy Link រួចរាល់!</div>
+
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn-outline" id="logoutBtn">🚪 Logout</button>
+    </div>
+
+    <div class="version">Admin Version 1.0.0</div>
+  </div>
+
+  <script>
+    /* ✅ LOGIN SETTINGS */
+    const ADMIN_PHONE = "015812050";
+    const ADMIN_PASSWORD = "reaksa12345";
+
+    const loginCard = document.getElementById("loginCard");
+    const adminCard = document.getElementById("adminCard");
+    const phoneEl = document.getElementById("phone");
+    const passEl = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const togglePass = document.getElementById("togglePass");
+
+    const guestInput = document.getElementById("guestInput");
+    const previewBox = document.getElementById("previewBox");
+    const copyBtn = document.getElementById("copyBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const toastMsg = document.getElementById("toastMsg");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const loggedAs = document.getElementById("loggedAs");
+
+    function showToast(msg="✅ Copy Link រួចរាល់!"){
+      toastMsg.textContent = msg;
+      toastMsg.style.display = "block";
+      setTimeout(()=> toastMsg.style.display = "none", 2200);
+    }
+
+    function makeGuestLink(name){
+      // ✅ IMPORTANT: link points to index.html
+      const base = window.location.origin + "/index.html?guest=";
+      return base + encodeURIComponent(name.trim());
+    }
+
+    function updatePreview(){
+      const name = guestInput.value.trim();
+      previewBox.innerHTML = "📌 Preview: <b>សូមគោរពអញ្ជើញ លោក " + (name || "........") + "</b>";
+    }
+
+    function gotoAdmin(){
+      loginCard.classList.add("hide");
+      adminCard.classList.remove("hide");
+      const savedPhone = localStorage.getItem("admin_phone") || "Admin";
+      loggedAs.textContent = "Logged in ✅ (" + savedPhone + ")";
+    }
+
+    function gotoLogin(){
+      adminCard.classList.add("hide");
+      loginCard.classList.remove("hide");
+    }
+
+    // ✅ Auto login
+    if(localStorage.getItem("admin_logged") === "yes"){
+      gotoAdmin();
+    }
+
+    // ✅ Toggle password
+    togglePass.addEventListener("click", () => {
+      passEl.type = (passEl.type === "password") ? "text" : "password";
+    });
+
+    // ✅ Login
+    loginBtn.addEventListener("click", () => {
+      const phone = phoneEl.value.trim();
+      const pass = passEl.value.trim();
+
+      if(phone === ADMIN_PHONE && pass === ADMIN_PASSWORD){
+        loginError.style.display = "none";
+        localStorage.setItem("admin_logged","yes");
+        localStorage.setItem("admin_phone", phone);
+        gotoAdmin();
+      }else{
+        loginError.style.display = "block";
+      }
+    });
+
+    // enter key
+    passEl.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") loginBtn.click();
+    });
+
+    guestInput.addEventListener("input", updatePreview);
+
+    copyBtn.addEventListener("click", async () => {
+      const name = guestInput.value.trim();
+      if(!name){
+        showToast("⚠️ សូមវាយឈ្មោះភ្ញៀវសិន!");
+        return;
+      }
+      const link = makeGuestLink(name);
+      try{
+        await navigator.clipboard.writeText(link);
+        showToast("✅ Copy Link រួចរាល់!");
+      }catch(err){
+        const temp = document.createElement("textarea");
+        temp.value = link;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+        showToast("✅ Copy Link រួចរាល់!");
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      guestInput.value = "";
+      updatePreview();
+      showToast("♻️ Reset រួចរាល់!");
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("admin_logged");
+      localStorage.removeItem("admin_phone");
+      gotoLogin();
+      showToast("🚪 Logout រួចរាល់!");
+    });
+
+    updatePreview();
+  </script>
+
+</body>
+</html>
